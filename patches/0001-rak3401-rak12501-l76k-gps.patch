@@ -178,7 +178,7 @@ diff --git a/src/helpers/sensors/EnvironmentSensorManager.cpp b/src/helpers/sens
  
  // ============================================================
  // I2C bus scanner
-@@ -685,34 +796,63 @@ bool EnvironmentSensorManager::querySensors(uint8_t requester_permissions, Cayen
+@@ -685,36 +796,65 @@ bool EnvironmentSensorManager::querySensors(uint8_t requester_permissions, Cayen
  int EnvironmentSensorManager::getNumSettings() const {
    int settings = 0;
    #if ENV_INCLUDE_GPS
@@ -197,8 +197,7 @@ diff --git a/src/helpers/sensors/EnvironmentSensorManager.cpp b/src/helpers/sens
  const char* EnvironmentSensorManager::getSettingName(int i) const {
    int settings = 0;
    #if ENV_INCLUDE_GPS
--    if (gps_detected && i == settings++) {
-+    if (gps_detected && i == settings++) {
+     if (gps_detected && i == settings++) {
        return "gps";
      }
 +    if (gps_detected && i == settings++) {
@@ -235,16 +234,7 @@ diff --git a/src/helpers/sensors/EnvironmentSensorManager.cpp b/src/helpers/sens
  
  bool EnvironmentSensorManager::setSettingValue(const char* name, const char* value) {
    #if ENV_INCLUDE_GPS
--  if (gps_detected && strcmp(name, "gps") == 0) {
-+  if (gps_detected && strcmp(name, "gps") == 0) {
-     if (strcmp(value, "0") == 0) {
-       stop_gps();
-     } else {
-@@ -721,14 +861,26 @@ bool EnvironmentSensorManager::setSettingValue(const char* name, const char* val
-     return true;
-   }
-   if (strcmp(name, "gps_interval") == 0) {
-     uint32_t interval_seconds = atoi(value);
+@@ -733,6 +873,17 @@ bool EnvironmentSensorManager::setSettingValue(const char* name, const char* val
      gps_update_interval_sec = interval_seconds > 0 ? interval_seconds : 1;
      return true;
    }
@@ -261,10 +251,7 @@ diff --git a/src/helpers/sensors/EnvironmentSensorManager.cpp b/src/helpers/sens
    #endif
    return false;  // not supported
  }
- 
- #if ENV_INCLUDE_GPS
- void EnvironmentSensorManager::initBasicGPS() {
-@@ -743,6 +895,25 @@ void EnvironmentSensorManager::initBasicGPS() {
+@@ -743,6 +894,25 @@ void EnvironmentSensorManager::initBasicGPS() {
    Serial1.begin(9600);
    #endif
  
@@ -291,7 +278,7 @@ diff --git a/src/helpers/sensors/EnvironmentSensorManager.cpp b/src/helpers/sens
    // Try to detect if GPS is physically connected to determine if we should expose the setting
    _location->begin();
    _location->reset();
-@@ -834,6 +1005,14 @@ bool EnvironmentSensorManager::gpsIsAwake(uint8_t ioPin){
+@@ -834,6 +1004,14 @@ bool EnvironmentSensorManager::gpsIsAwake(uint8_t ioPin){
  
  void EnvironmentSensorManager::start_gps() {
    gps_active = true;
